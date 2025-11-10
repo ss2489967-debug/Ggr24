@@ -1,0 +1,8 @@
+def find_min_index(lst):
+    if not lst:
+        return None  # Если список пуст, возвращаем None
+    min_index = 0
+    for i in range(1, len(lst)):
+        if lst[i] < lst[min_index]:
+            min_index = i
+    return min_index

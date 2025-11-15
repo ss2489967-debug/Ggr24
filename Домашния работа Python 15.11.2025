@@ -1,0 +1,22 @@
+def find_min_index(lst):
+    """
+    Принимает список и возвращает индекс минимального элемента.
+    Если список пуст, возвращает None.
+    """
+    if not lst:  # проверка на пустой список
+        return None
+    
+    min_index = 0
+    min_value = lst[0]
+    
+    for i in range(1, len(lst)):
+        if lst[i] < min_value:
+            min_value = lst[i]
+            min_index = i
+    
+    return min_index
+
+# Примеры использования:
+print(find_min_index([3, 1, 4, 1, 5, 9]))  # 1 (индекс элемента 1)
+print(find_min_index([10, 2, 8, 5]))       # 1 (индекс элемента 2)
+print(find_min_index([]))                  # None

@@ -1,0 +1,220 @@
+# Функция для генерации одного пароля
+def generate_password(length=8, use_special=False, use_upper=True, use_lower=True, use_numbers=True):
+    """
+    Простая генерация пароля
+    """
+    # Базовые наборы символов
+    lowercase = "abcdefghijklmnopqrstuvwxyz"
+    uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    numbers = "0123456789"
+    special = "!@#$%&*"
+    
+    # Собираем все символы, которые будем использовать
+    all_chars = ""
+    if use_lower:
+        all_chars += lowercase
+    if use_upper:
+        all_chars += uppercase
+    if use_numbers:
+        all_chars += numbers
+    if use_special:
+        all_chars += special
+    
+    # Если ничего не выбрано, используем хотя бы буквы
+    if all_chars == "":
+        all_chars = lowercase + uppercase
+    
+    # Генерируем пароль
+    password = ""
+    for i in range(length):
+        random_index = random.randint(0, len(all_chars) - 1)
+        password += all_chars[random_index]
+    
+    return password
+
+# Функция для проверки надежности
+def check_password(password):
+    """
+    Простая проверка пароля
+    """
+    score = 0
+    notes = []
+    
+    # Проверка длины
+    if len(password) >= 12:
+        score += 3
+        notes.append("✓ Длина хорошая (12+ символов)")
+    elif len(password) >= 8:
+        score += 2
+        notes.append("✓ Длина нормальная (8-11 символов)")
+    else:
+        score -= 1
+        notes.append("✗ Слишком короткий пароль")
+    
+    # Проверка на заглавные буквы
+    has_upper = any(char.isupper() for char in password)
+    if has_upper:
+        score += 1
+        notes.append("✓ Есть заглавные буквы")
+    else:
+        notes.append("✗ Нет заглавных букв")
+    
+    # Проверка на строчные буквы
+    has_lower = any(char.islower() for char in password)
+    if has_lower:
+        score += 1
+        notes.append("✓ Есть строчные буквы")
+    else:
+        notes.append("✗ Нет строчных букв")
+    
+    # Проверка на цифры
+    has_digit = any(char.isdigit() for char in password)
+    if has_digit:
+        score += 1
+        notes.append("✓ Есть цифры")
+    else:
+        notes.append("✗ Нет цифр")
+    
+    # Проверка на специальные символы
+    special_chars = "!@#$%&*"
+    has_special = any(char in special_chars for char in password)
+    if has_special:
+        score += 2
+        notes.append("✓ Есть специальные символы")
+    else:
+        notes.append("✗ Нет специальных символов")
+    
+    # Определяем уровень надежности
+    if score >= 7:
+        strength = "ОЧЕНЬ НАДЕЖНЫЙ"
+    elif score >= 5:
+        strength = "НАДЕЖНЫЙ"
+    elif score >= 3:
+        strength = "СРЕДНИЙ"
+    else:
+        strength = "СЛАБЫЙ"
+    
+    return {
+        "score": score,
+        "strength": strength,
+        "notes": notes
+    }
+
+# Функция для генерации нескольких паролей
+def generate_multiple_passwords(count=5, length=10, use_special=True, use_upper=True, use_lower=True, use_numbers=True):
+    """
+    Генерация нескольких паролей
+    """
+    passwords = []
+    
+    for i in range(count):
+        password = generate_password(length, use_special, use_upper, use_lower, use_numbers)
+        
+        # Проверяем, нет ли такого пароля уже в списке
+        while password in passwords:
+            password = generate_password(length, use_special, use_upper, use_lower, use_numbers)
+        
+        passwords.append(password)
+    
+    return passwords
+
+# Основная программа
+def main():
+    print("=== ПРОСТОЙ ГЕНЕРАТОР ПАРОЛЕЙ ===")
+    print()
+    
+    while True:
+        print("Что вы хотите сделать?")
+        print("1 - Сгенерировать один пароль")
+        print("2 - Сгенерировать несколько паролей")
+        print("3 - Проверить надежность пароля")
+        print("0 - Выйти из программы")
+        
+        choice = input("Ваш выбор: ")
+        
+        if choice == "1":
+            print("\n--- Генерация одного пароля ---")
+            # Спрашиваем настройки
+            try:
+                length = int(input("Длина пароля (8-20): ") or "10")
+            except:
+                length = 10
+                print("Будет использована длина по умолчанию: 10")
+            
+            use_special = input("Использовать специальные символы (!@#$%&*)? (y/n): ").lower() == 'y'
+            use_upper = input("Использовать заглавные буквы? (y/n): ").lower() == 'y'
+            use_lower = input("Использовать строчные буквы? (y/n): ").lower() == 'y'
+            use_numbers = input("Использовать цифры? (y/n): ").lower() == 'y'
+            
+            # Генерируем пароль
+            password = generate_password(length, use_special, use_upper, use_lower, use_numbers)
+            
+            print(f"\nВаш пароль: {password}")
+            
+            # Проверяем надежность
+            result = check_password(password)
+            print(f"\nНадежность: {result['strength']} (оценка: {result['score']}/8)")
+            for note in result['notes']:
+                print(f"  {note}")
+            
+            input("\nНажмите Enter чтобы продолжить...")
+        
+        elif choice == "2":
+            print("\n--- Генерация нескольких паролей ---")
+            
+            try:
+                count = int(input("Сколько паролей сгенерировать? (2-10): ") or "5")
+            except:
+                count = 5
+                print("Будет сгенерировано 5 паролей")
+            
+            try:
+                length = int(input("Длина паролей (8-20): ") or "10")
+            except:
+                length = 10
+                print("Будет использована длина: 10")
+            
+            use_special = input("Использовать специальные символы? (y/n): ").lower() == 'y'
+            
+            # Генерируем пароли
+            passwords = generate_multiple_passwords(count, length, use_special)
+            
+            print(f"\nВаши {count} паролей:")
+            for i, pwd in enumerate(passwords, 1):
+                print(f"{i}. {pwd}")
+            
+            # Проверяем первый пароль как пример
+            if passwords:
+                result = check_password(passwords[0])
+                print(f"\nПример надежности (первый пароль): {result['strength']}")
+            
+            input("\nНажмите Enter чтобы продолжить...")
+        
+        elif choice == "3":
+            print("\n--- Проверка надежности пароля ---")
+            
+            password = input("Введите пароль для проверки: ")
+            
+            if password:
+                result = check_password(password)
+                print(f"\nПароль: {password}")
+                print(f"Надежность: {result['strength']} (оценка: {result['score']}/8)")
+                for note in result['notes']:
+                    print(f"  {note}")
+            else:
+                print("Вы не ввели пароль!")
+            
+            input("\nНажмите Enter чтобы продолжить...")
+        
+        elif choice == "0":
+            print("До свидания!")
+            break
+        
+        else:
+            print("Неизвестная команда! Попробуйте еще раз.")
+        
+        print("\n" + "="*40 + "\n")
+
+# Запуск программы
+if name == "main":
+    main()

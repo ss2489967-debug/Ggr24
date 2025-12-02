@@ -1,0 +1,46 @@
+def find_max_recursive(arr):
+    """
+    Рекурсивно находит максимальный элемент в списке.
+    
+    Args:
+        arr: список чисел
+        
+    Returns:
+        Максимальное число в списке
+    """
+    # Базовый случай: пустой список
+    if not arr:
+        return None
+    
+    # Базовый случай: один элемент
+    if len(arr) == 1:
+        return arr[0]
+    
+    # Рекурсивный случай: находим максимум в оставшейся части
+    max_in_rest = find_max_recursive(arr[1:])
+    
+    # Возвращаем максимум из текущего элемента и остатка
+    return arr[0] if arr[0] > max_in_rest else max_in_rest
+
+
+# Альтернативная версия с использованием индексов (более эффективная)
+def find_max_recursive_v2(arr, index=0):
+    """
+    Рекурсивно находит максимальный элемент в списке (версия с индексами).
+    """
+    if not arr:
+        return None
+    
+    if index == len(arr) - 1:
+        return arr[index]
+    
+    max_in_rest = find_max_recursive_v2(arr, index + 1)
+    return arr[index] if arr[index] > max_in_rest else max_in_rest
+
+
+# Пример использования
+if __name__ == "__main__":
+    test_list = [3, 5, 1, 8, 2, 7]
+    print(f"Список: {test_list}")
+    print(f"Максимальный элемент (версия 1): {find_max_recursive(test_list)}")
+    print(f"Максимальный элемент (версия 2): {find_max_recursive_v2(test_list)}")

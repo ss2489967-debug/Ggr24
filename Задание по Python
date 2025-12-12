@@ -1,0 +1,175 @@
+# ==================== ЗАДАЧА 1 ====================
+print("=== Задача 1: Сумма элементов списка ===")
+try:
+    numbers = [10, 20, 30, 40, 50]
+    total = sum(numbers)
+    print(f"Список: {numbers}")
+    print(f"Сумма элементов: {total}")
+except TypeError as e:
+    print(f"Ошибка: в списке есть элемент нечислового типа. {e}")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 2 ====================
+print("\n=== Задача 2: Деление элементов списка на число ===")
+numbers = [10, 20, 30, 40, 50]
+print(f"Список: {numbers}")
+
+try:
+    divisor = float(input("Введите делитель: "))
+    result = [num / divisor for num in numbers]
+    print(f"Результат деления: {result}")
+except ZeroDivisionError:
+    print("Ошибка: деление на ноль недопустимо!")
+except ValueError:
+    print("Ошибка: введено некорректное число!")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 3 ====================
+print("\n=== Задача 3: Поиск максимального элемента ===")
+try:
+    numbers = [15, 42, 7, 89, 23, 56, 31, 78, 94, 12]
+    if len(numbers) == 0:
+        raise ValueError("Список пуст, невозможно найти максимальный элемент")
+    
+    max_value = max(numbers)
+    print(f"Список: {numbers}")
+    print(f"Максимальный элемент: {max_value}")
+except ValueError as e:
+    print(f"Ошибка: {e}")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 4 ====================
+print("\n=== Задача 4: Проверка наличия элемента ===")
+numbers = [5, 12, 8, 19, 3]
+print(f"Список: {numbers}")
+
+try:
+    user_input = input("Введите число для поиска: ")
+    search_number = float(user_input)
+    
+    if search_number in numbers:
+        print(f"Число {search_number} найдено в списке")
+    else:
+        print(f"Число {search_number} отсутствует в списке")
+except ValueError:
+    print("Ошибка: введено некорректное число!")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 5 ====================
+print("\n=== Задача 5: Удаление элемента ===")
+strings = ["яблоко", "банан", "апельсин", "виноград", "киви"]
+print(f"Список строк: {strings}")
+
+try:
+    user_string = input("Введите строку для удаления: ")
+    
+    if user_string in strings:
+        strings.remove(user_string)
+        print(f"Строка '{user_string}' удалена")
+        print(f"Обновленный список: {strings}")
+    else:
+        raise ValueError(f"Строка '{user_string}' не найдена в списке")
+except ValueError as e:
+    print(f"Ошибка: {e}")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 6 ====================
+print("\n=== Задача 6: Конкатенация строк ===")
+try:
+    strings = ["Python", "это", "интересный", "язык", "программирования"]
+    
+    if len(strings) == 0:
+        raise ValueError("Список пуст, нечего объединять")
+    
+    result = " ".join(strings)
+    print(f"Список строк: {strings}")
+    print(f"Объединенная строка: {result}")
+except ValueError as e:
+    print(f"Ошибка: {e}")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 7 ====================
+print("\n=== Задача 7: Сортировка списка ===")
+try:
+    numbers = [42, 15, 8, 23, 17]
+    # Для проверки обработки ошибок можно раскомментировать строку ниже:
+    # numbers = [42, 15, "текст", 23, 17]
+    
+    print(f"Исходный список: {numbers}")
+    sorted_numbers = sorted(numbers)
+    print(f"Отсортированный список: {sorted_numbers}")
+except TypeError as e:
+    print(f"Ошибка: в списке обнаружены некорректные значения. {e}")
+except Exception as e:
+    print(f"Произошла непредвиденная ошибка: {e}")
+
+# ==================== ЗАДАЧА 8 ====================
+print("\n=== Задача 8: Сложение элементов списка ===")
+numbers = []
+print("Введите 10 целых чисел:")
+
+for i in range(10):
+    while True:
+        try:
+            num = int(input(f"Число {i+1}: "))
+            numbers.append(num)
+            break
+        except ValueError:
+            print("Ошибка: введено не целое число. Попробуйте снова.")
+
+print(f"\nВведенный список: {numbers}")
+print(f"Сумма элементов: {sum(numbers)}")
+
+# ==================== ЗАДАЧА 9 ====================
+print("\n=== Задача 9: Проверка ввода ===")
+numbers = []
+
+while True:
+    try:
+        user_input = input("Введите число (или 'exit' для завершения): ")
+        
+        if user_input.lower() == 'exit':
+            break
+        
+        number = float(user_input)
+        numbers.append(number)
+        print(f"Число {number} добавлено в список.")
+        
+    except ValueError:
+        print("Ошибка: введено некорректное число. Попробуйте снова.")
+    except Exception as e:
+        print(f"Произошла непредвиденная ошибка: {e}")
+
+print(f"\nИтоговый список чисел: {numbers}")
+
+# ==================== ЗАДАЧА 10 ====================
+print("\n=== Задача 10: Удаление дубликатов ===")
+unique_numbers = []
+
+while True:
+    try:
+        user_input = input("Введите число (или 'exit' для завершения): ")
+        
+        if user_input.lower() == 'exit':
+            break
+        
+        number = float(user_input)
+        
+        if number in unique_numbers:
+            print(f"Число {number} уже есть в списке. Игнорируем.")
+        else:
+            unique_numbers.append(number)
+            print(f"Число {number} добавлено в список.")
+            
+    except ValueError:
+        print("Ошибка: введено некорректное число. Попробуйте снова.")
+    except Exception as e:
+        print(f"Произошла непредвиденная ошибка: {e}")
+
+print(f"\nСписок уникальных чисел: {sorted(unique_numbers)}")

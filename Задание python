@@ -1,0 +1,164 @@
+def main():
+    """
+    Основная функция программы для учета учебного времени.
+    """
+    print("=" * 50)
+    print("          ПРОГРАММА УЧЕТА ВРЕМЕНИ УЧЕБЫ")
+    print("=" * 50)
+    print()
+    
+    # Шаг 1: Ввод количества учебных дней (не более 7)
+    print("ШАГ 1: Ввод количества учебных дней")
+    print("-" * 40)
+    
+    days_count = 0  # Переменная для хранения количества дней
+    
+    while True:
+        try:
+            # Запрашиваем ввод количества дней
+            user_input = input("Введите количество учебных дней (от 1 до 7): ")
+            
+            # Пробуем преобразовать введенное значение в целое число
+            days_count = int(user_input)
+            
+            # Проверяем, что количество дней находится в допустимом диапазоне
+            if 1 <= days_count <= 7:
+                # Если все условия выполнены, выходим из цикла
+                print(f"✓ Установлено {days_count} учебных дней")
+                break
+            elif days_count < 1:
+                print("❌ Ошибка: Количество дней должно быть положительным числом!")
+            else:
+                print("❌ Ошибка: Количество дней не должно превышать 7!")
+                
+        except ValueError:
+            # Обрабатываем случай, когда введено не числовое значение
+            print("❌ Ошибка: Пожалуйста, введите целое число!")
+            
+        print("Пожалуйста, попробуйте снова.\n")
+    
+    print("-" * 40)
+    print()
+    
+    # Шаг 2: Ввод количества часов для каждого дня
+    print("ШАГ 2: Ввод количества учебных часов")
+    print("-" * 40)
+    
+    total_hours = 0  # Общая сумма часов за неделю
+    daily_hours = []  # Список для хранения часов по дням
+    
+    # Используем цикл for для обработки каждого учебного дня
+    for day in range(1, days_count + 1):
+        print(f"\nДень {day}:")
+        
+        while True:
+            try:
+                # Запрашиваем ввод количества часов
+                hours_input = input("  Введите количество часов учебы: ")
+                
+                # Пробуем преобразовать введенное значение в число с плавающей точкой
+                hours = float(hours_input)
+                
+                # Проверяем, что количество часов положительное
+                if hours >= 0:
+                    # Добавляем часы в общую сумму и в список
+                    total_hours += hours
+                    daily_hours.append(hours)
+                    print(f"  ✓ Записано: {hours} часов")
+                    break
+                else:
+                    print("  ❌ Ошибка: Количество часов не может быть отрицательным!")
+                    
+            except ValueError:
+                # Обрабатываем случай, когда введено не числовое значение
+                print("  ❌ Ошибка: Пожалуйста, введите число!")
+            
+            print("  Пожалуйста, введите корректное значение.")
+    
+    print("-" * 40)
+    print()
+    
+    # Шаг 3: Вывод результатов
+    print("ШАГ 3: Итоги недели")
+    print("=" * 50)
+    
+    # Выводим детальную информацию по каждому дню
+    print("\nДетальная информация по дням:")
+    for i, hours in enumerate(daily_hours, 1):
+        print(f"  День {i}: {hours} часов")
+    
+    # Выводим общую статистику
+    print("\n" + "-" * 40)
+    print("ОБЩАЯ СТАТИСТИКА:")
+    print(f"  • Всего учебных дней: {days_count}")
+    print(f"  • Общее количество часов: {total_hours:.2f}")
+    
+    if days_count > 0:
+        average = total_hours / days_count
+        print(f"  • Среднее время учебы в день: {average:.2f} часов")
+    
+    print("\n" + "=" * 50)
+    print("         УЧЕТ ЗАВЕРШЕН. УСПЕХОВ В УЧЕБЕ!")
+    print("=" * 50)
+
+# Дополнительные функции для расширения возможностей программы
+def show_statistics(daily_hours):
+    """
+    Функция для отображения дополнительной статистики.
+    """
+    if not daily_hours:
+        return
+    
+    print("\nДОПОЛНИТЕЛЬНАЯ СТАТИСТИКА:")
+    print(f"  • Максимальное время за день: {max(daily_hours):.2f} часов")
+    print(f"  • Минимальное время за день: {min(daily_hours):.2f} часов")
+    
+    # Подсчитываем дни с разной нагрузкой
+    light_days = sum(1 for h in daily_hours if h < 2)
+    medium_days = sum(1 for h in daily_hours if 2 <= h <= 5)
+    heavy_days = sum(1 for h in daily_hours if h > 5)
+    
+    print(f"  • Дней с легкой нагрузкой (<2ч): {light_days}")
+    print(f"  • Дней со средней нагрузкой (2-5ч): {medium_days}")
+    print(f"  • Дней с высокой нагрузкой (>5ч): {heavy_days}")
+
+def save_to_file(days_count, total_hours, daily_hours):
+    """
+    Функция для сохранения результатов в файл.
+    """
+    filename = f"study_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write("=" * 50 + "\n")
+        file.write("          ОТЧЕТ ОБ УЧЕБНОМ ВРЕМЕНИ\n")
+        file.write("=" * 50 + "\n\n")
+        
+        file.write(f"Дата создания: {datetime.datetime.now().strftime('%d.%m.%Y %H:%M')}\n")
+        file.write(f"Количество учебных дней: {days_count}\n")
+        file.write(f"Общее количество часов: {total_hours:.2f}\n\n")
+        
+        file.write("Детализация по дням:\n")
+        for i, hours in enumerate(daily_hours, 1):
+            file.write(f"  День {i}: {hours} часов\n")
+    
+    print(f"\n✓ Отчет сохранен в файл: {filename}")
+
+# Блок для импорта необходимых модулей и запуска программы
+if __name__ == "__main__":
+    import datetime  # Импорт модуля для работы с датой/временем
+    
+    try:
+        # Запуск основной программы
+        main()
+        
+        # Если нужны дополнительные функции, их можно добавить здесь:
+        # show_statistics(daily_hours)
+        # save_to_file(days_count, total_hours, daily_hours)
+        
+    except KeyboardInterrupt:
+        # Обработка прерывания программы (Ctrl+C)
+        print("\n\nПрограмма прервана пользователем.")
+    except Exception as e:
+        # Обработка любых других неожиданных ошибок
+        print(f"\nПроизошла непредвиденная ошибка: {e}")
+        print("Пожалуйста, сообщите об ошибке разработчику.")

@@ -1,0 +1,177 @@
+# Модуль constants.py - физические константы
+
+# Число Пи (точно запомнил)
+PI = 3.14  # примерно так
+
+# Гравитационная постоянная (из учебника)
+G = 9.81   # это ускорение свободного падения на Земле
+
+# Скорость света (очень большая)
+C = 300000  # примерно 300 тысяч км/с
+
+# Модуль string_utils.py - работа со строками
+
+# Функция 1: делать буквы большими
+def UPPER(text):
+    return text.upper()  # нашел метод upper()
+
+# Функция 2: считать символы
+def count(text):
+    result = 0
+    for char in text:  # перебираю каждый символ
+        result += 1
+    return result
+
+# Функция 3: проверка палиндрома
+def is_palindrome(word):
+    # Палиндром - читается одинаково с двух сторон
+    reversed_word = ""
+    # Переворачиваю слово вручную
+    for i in range(len(word)-1, -1, -1):
+        reversed_word += word[i]
+    
+    # Сравниваю
+    if word == reversed_word:
+        return True
+    else:
+        return False
+
+# Добавил свою функцию - мне нравится
+def make_excited(text):
+    return text + "!!!"
+
+# Модуль random_utils.py - случайные числа
+# Создал: новичок
+import random  # импортировал модуль
+
+# Функция 1: случайное число
+def random_number(a, b):
+    # Возвращает число между a и b
+    return random.randint(a, b)
+
+# Функция 2: случайный список
+def make_random_list(n):
+    # Создаю пустой список
+    my_list = []
+    
+    # Добавляю n случайных чисел
+    for i in range(n):
+        my_list.append(random.randint(1, 100))
+    
+    return my_list
+
+# Функция 3: перемешать список
+def mix_list(lst):
+    # Создаю копию (чтобы не испортить оригинал)
+    new_list = lst.copy()
+    
+    # Перемешиваю вручную - меняю местами элементы
+    for i in range(len(new_list)):
+        # Выбираю случайный индекс
+        j = random.randint(0, len(new_list)-1)
+        # Меняю местами
+        temp = new_list[i]
+        new_list[i] = new_list[j]
+        new_list[j] = temp
+    
+    return new_list
+
+# Главная программа для тестирования модулей
+# Создал: новичок
+
+# Импортирую свои модули
+import constants  # константы
+import string_utils  # работа со строками
+import random_utils  # случайные числа
+
+print("=" * 50)
+print("ТЕСТИРУЮ МОДУЛЬ string_utils.py")
+print("=" * 50)
+
+# Тест 1: Делаем буквы большими
+test_word = "привет, мир!"
+print(f"Оригинал: {test_word}")
+print(f"Большими: {string_utils.UPPER(test_word)}")
+print()
+
+# Тест 2: Считаем символы
+print(f"В слове '{test_word}' символов: {string_utils.count(test_word)}")
+print(f"Проверка встроенной функцией len(): {len(test_word)}")
+print()
+
+# Тест 3: Палиндромы
+words_to_test = ["казак", "мадам", "дед", "программирование"]
+for word in words_to_test:
+    result = string_utils.is_palindrome(word)
+    print(f"Слово '{word}' - палиндром? {result}")
+print()
+
+# Тест 4: Моя функция
+print(f"С восклицаниями: {string_utils.make_excited('Ура')}")
+print()
+
+print("=" * 50)
+print("ТЕСТИРУЮ МОДУЛЬ random_utils.py")
+print("=" * 50)
+
+# Тест 1: Случайное число
+print("5 случайных чисел от 1 до 10:")
+for _ in range(5):
+    num = random_utils.random_number(1, 10)
+    print(f"  {num}", end=" ")
+print("\n")
+
+# Тест 2: Случайный список
+my_random_list = random_utils.make_random_list(5)
+print(f"Случайный список из 5 элементов: {my_random_list}")
+print()
+
+# Тест 3: Перемешивание
+print(f"Оригинальный список: {my_random_list}")
+print(f"Перемешанный список: {random_utils.mix_list(my_random_list)}")
+print(f"Оригинал не изменился: {my_random_list}")
+print()
+
+print("=" * 50)
+print("ТЕСТИРУЮ МОДУЛЬ constants.py")
+print("=" * 50)
+
+# Использую константы
+print(f"Число Пи: {constants.PI}")
+print(f"Гравитационная постоянная: {constants.G}")
+print(f"Скорость света: {constants.C} км/с")
+print()
+
+# Простые расчеты
+print("НЕБОЛЬШИЕ РАСЧЕТЫ:")
+# Площадь круга радиусом 5
+radius = 5
+area = constants.PI * radius * radius
+print(f"Площадь круга радиусом {radius}: {area:.2f}")
+
+# Сила тяжести для тела массой 10 кг
+mass = 10
+force = mass * constants.G
+print(f"Сила тяжести для тела массой {mass} кг: {force:.2f} Н")
+
+# Время, за которое свет пройдет 100000 км
+distance = 100000  # км
+time = distance / constants.C
+print(f"Свет пройдет {distance} км за {time:.4f} секунд")
+print()
+
+print("=" * 50)
+print("ВСЕ МОДУЛИ ПРОТЕСТИРОВАНЫ!")
+print("=" * 50)
+
+# Еще немного экспериментов (новичок любит экспериментировать)
+print("\nЭКСПЕРИМЕНТЫ:")
+# Создаю строку и проверяю всеми функциями
+experiment_string = "Топот"
+print(f"Строка: {experiment_string}")
+print(f"Большими: {string_utils.UPPER(experiment_string)}")
+print(f"Длина: {string_utils.count(experiment_string)}")
+print(f"Палиндром? {string_utils.is_palindrome(experiment_string)}")
+
+# Случайный эксперимент
+print(f"\nСлучайное число для эксперимента: {random_utils.random_number(100, 200)}")

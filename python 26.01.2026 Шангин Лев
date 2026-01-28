@@ -1,0 +1,281 @@
+class Person:
+    """Класс для представления человека"""
+    
+    def __init__(self, full_name="", birth_date="", phone="", city="", country="", address=""):
+        """Инициализация объекта человека"""
+        self._full_name = full_name
+        self._birth_date = birth_date
+        self._phone = phone
+        self._city = city
+        self._country = country
+        self._address = address
+    
+    def input_data(self):
+        """Ввод данных о человеке"""
+        print("\n=== Ввод данных о человеке ===")
+        self._full_name = input("ФИО: ")
+        self._birth_date = input("Дата рождения (ДД.ММ.ГГГГ): ")
+        self._phone = input("Контактный телефон: ")
+        self._city = input("Город: ")
+        self._country = input("Страна: ")
+        self._address = input("Домашний адрес: ")
+    
+    def display_data(self):
+        """Вывод данных о человеке"""
+        print("\n=== Данные о человеке ===")
+        print(f"ФИО: {self._full_name}")
+        print(f"Дата рождения: {self._birth_date}")
+        print(f"Телефон: {self._phone}")
+        print(f"Город: {self._city}")
+        print(f"Страна: {self._country}")
+        print(f"Адрес: {self._address}")
+    
+    # Методы доступа к полям (геттеры)
+    def get_full_name(self):
+        return self._full_name
+    
+    def get_birth_date(self):
+        return self._birth_date
+    
+    def get_phone(self):
+        return self._phone
+    
+    def get_city(self):
+        return self._city
+    
+    def get_country(self):
+        return self._country
+    
+    def get_address(self):
+        return self._address
+    
+    # Методы изменения полей (сеттеры)
+    def set_full_name(self, full_name):
+        self._full_name = full_name
+    
+    def set_birth_date(self, birth_date):
+        self._birth_date = birth_date
+    
+    def set_phone(self, phone):
+        self._phone = phone
+    
+    def set_city(self, city):
+        self._city = city
+    
+    def set_country(self, country):
+        self._country = country
+    
+    def set_address(self, address):
+        self._address = address
+
+
+class City:
+    """Класс для представления города"""
+    
+    def __init__(self, name="", region="", country="", population=0, postal_code="", phone_code=""):
+        """Инициализация объекта города"""
+        self._name = name
+        self._region = region
+        self._country = country
+        self._population = population
+        self._postal_code = postal_code
+        self._phone_code = phone_code
+    
+    def input_data(self):
+        """Ввод данных о городе"""
+        print("\n=== Ввод данных о городе ===")
+        self._name = input("Название города: ")
+        self._region = input("Название региона: ")
+        self._country = input("Название страны: ")
+        self._population = int(input("Количество жителей: "))
+        self._postal_code = input("Почтовый индекс: ")
+        self._phone_code = input("Телефонный код: ")
+    
+    def display_data(self):
+        """Вывод данных о городе"""
+        print("\n=== Данные о городе ===")
+        print(f"Город: {self._name}")
+        print(f"Регион: {self._region}")
+        print(f"Страна: {self._country}")
+        print(f"Население: {self._population:,} чел.".replace(",", " "))
+        print(f"Почтовый индекс: {self._postal_code}")
+        print(f"Телефонный код: {self._phone_code}")
+    
+    # Методы доступа к полям (геттеры)
+    def get_name(self):
+        return self._name
+    
+    def get_region(self):
+        return self._region
+    
+    def get_country(self):
+        return self._country
+    
+    def get_population(self):
+        return self._population
+    
+    def get_postal_code(self):
+        return self._postal_code
+    
+    def get_phone_code(self):
+        return self._phone_code
+    
+    # Методы изменения полей (сеттеры)
+    def set_name(self, name):
+        self._name = name
+    
+    def set_region(self, region):
+        self._region = region
+    
+    def set_country(self, country):
+        self._country = country
+    
+    def set_population(self, population):
+        self._population = population
+    
+    def set_postal_code(self, postal_code):
+        self._postal_code = postal_code
+    
+    def set_phone_code(self, phone_code):
+        self._phone_code = phone_code
+
+
+class Country:
+    """Класс для представления страны"""
+    
+    def __init__(self, name="", continent="", population=0, phone_code="", capital="", cities=None):
+        """Инициализация объекта страны"""
+        self._name = name
+        self._continent = continent
+        self._population = population
+        self._phone_code = phone_code
+        self._capital = capital
+        self._cities = cities if cities is not None else []
+    
+    def input_data(self):
+        """Ввод данных о стране"""
+        print("\n=== Ввод данных о стране ===")
+        self._name = input("Название страны: ")
+        self._continent = input("Название континента: ")
+        self._population = int(input("Количество жителей: "))
+        self._phone_code = input("Телефонный код страны: ")
+        self._capital = input("Столица: ")
+        
+        # Ввод списка городов
+        self._cities = []
+        print("\nВведите названия городов страны (для завершения введите 'стоп'):")
+        while True:
+            city = input("Город: ")
+            if city.lower() == "стоп":
+                break
+            if city.strip():  # Проверяем, что строка не пустая
+                self._cities.append(city)
+    
+    def display_data(self):
+        """Вывод данных о стране"""
+        print("\n=== Данные о стране ===")
+        print(f"Страна: {self._name}")
+        print(f"Континент: {self._continent}")
+        print(f"Население: {self._population:,} чел.".replace(",", " "))
+        print(f"Телефонный код: {self._phone_code}")
+        print(f"Столица: {self._capital}")
+        print(f"Количество городов: {len(self._cities)}")
+        if self._cities:
+            print("Основные города:")
+            for i, city in enumerate(self._cities, 1):
+                print(f"  {i}. {city}")
+    
+    # Методы доступа к полям (геттеры)
+    def get_name(self):
+        return self._name
+    
+    def get_continent(self):
+        return self._continent
+    
+    def get_population(self):
+        return self._population
+    
+    def get_phone_code(self):
+        return self._phone_code
+    
+    def get_capital(self):
+        return self._capital
+    
+    def get_cities(self):
+        return self._cities
+    
+    # Методы изменения полей (сеттеры)
+    def set_name(self, name):
+        self._name = name
+    
+    def set_continent(self, continent):
+        self._continent = continent
+    
+    def set_population(self, population):
+        self._population = population
+    
+    def set_phone_code(self, phone_code):
+        self._phone_code = phone_code
+    
+    def set_capital(self, capital):
+        self._capital = capital
+    
+    def set_cities(self, cities):
+        self._cities = cities
+    
+    def add_city(self, city):
+        """Добавление города в список"""
+        if city not in self._cities:
+            self._cities.append(city)
+    
+    def remove_city(self, city):
+        """Удаление города из списка"""
+        if city in self._cities:
+            self._cities.remove(city)
+
+
+def main():
+    """Основная функция для демонстрации работы классов"""
+    print("=== ДЕМОНСТРАЦИЯ РАБОТЫ КЛАССОВ ===\n")
+    
+    # Демонстрация работы с классом Person
+    print("1. РАБОТА С КЛАССОМ 'ЧЕЛОВЕК':")
+    person1 = Person()
+    person1.set_full_name("Иванов Иван Иванович")
+    person1.set_birth_date("15.05.1990")
+    person1.set_phone("+7 999 123-45-67")
+    person1.set_city("Москва")
+    person1.set_country("Россия")
+    person1.set_address("ул. Пушкина, д. 10, кв. 25")
+    person1.display_data()
+    
+    print("\n" + "="*50 + "\n")
+    
+    # Демонстрация работы с классом City
+    print("2. РАБОТА С КЛАССОМ 'ГОРОД':")
+    city1 = City()
+    city1.set_name("Москва")
+    city1.set_region("Центральный федеральный округ")
+    city1.set_country("Россия")
+    city1.set_population(12655050)
+    city1.set_postal_code("101000")
+    city1.set_phone_code("495, 499")
+    city1.display_data()
+    
+    print("\n" + "="*50 + "\n")
+    
+    # Демонстрация работы с классом Country
+    print("3. РАБОТА С КЛАССОМ 'СТРАНА':")
+    country1 = Country()
+    country1.set_name("Россия")
+    country1.set_continent("Евразия")
+    country1.set_population(146171015)
+    country1.set_phone_code("+7")
+    country1.set_capital("Москва")
+    country1.set_cities(["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Казань"])
+    country1.display_data()
+
+
+# Запуск демонстрации
+if __name__ == "__main__":
+    main()

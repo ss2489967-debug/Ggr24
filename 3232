@@ -1,0 +1,128 @@
+# Уровень 1: Начальный
+class Book:
+    def __init__(self, name, author, year):
+        self.__name = name  # Приватный атрибут
+        self.__author = author  # Приватный атрибут
+        self.__year = year  # Приватный атрибут
+    
+    def display_info(self):
+        """Выводит информацию о книге"""
+        print(f"Название: {self.__name}, Автор: {self.__author}, Год выпуска: {self.__year}")
+
+
+# Уровень 2: Средний (геттеры и сеттеры)
+    # Геттеры
+    def get_name(self):
+        return self.__name
+    
+    def get_author(self):
+        return self.__author
+    
+    def get_year(self):
+        return self.__year
+    
+    # Сеттеры
+    def set_name(self, name):
+        self.__name = name
+    
+    def set_author(self, author):
+        self.__author = author
+    
+    def set_year(self, year):
+        self.__year = year
+
+
+# Уровень 3: Продвинутый
+class Library:
+    def __init__(self):
+        self.books = []
+    
+    def add_book(self, title, author, year):
+        """Добавляет новую книгу в библиотеку"""
+        new_book = Book(title, author, year)
+        self.books.append(new_book)
+        print(f"Книга '{title}' добавлена в библиотеку")
+    
+    def show_books(self):
+        """Выводит все книги в библиотеке"""
+        if not self.books:
+            print("Библиотека пуста")
+            return
+        
+        print("\n=== Список всех книг в библиотеке ===")
+        print("-" * 50)
+        for i, book in enumerate(self.books, 1):
+            print(f"{i}. ", end="")
+            book.display_info()
+    
+    def find_book(self, title):
+        """Ищет книгу по названию"""
+        found_books = []
+        for book in self.books:
+            if title.lower() in book.get_name().lower():
+                found_books.append(book)
+        
+        if found_books:
+            print(f"\nНайдено {len(found_books)} книг с названием, содержащим '{title}':")
+            print("-" * 50)
+            for i, book in enumerate(found_books, 1):
+                print(f"{i}. ", end="")
+                book.display_info()
+        else:
+            print(f"Книги с названием, содержащим '{title}', не найдены")
+        
+        return found_books
+
+
+# Основная программа
+def main():
+    library = Library()
+    
+    # Добавляем несколько книг для примера
+    library.add_book("Война и мир", "Лев Толстой", 1869)
+    library.add_book("Преступление и наказание", "Федор Достоевский", 1866)
+    library.add_book("Мастер и Маргарита", "Михаил Булгаков", 1967)
+    library.add_book("Анна Каренина", "Лев Толстой", 1878)
+    
+    while True:
+        print("\n" + "=" * 50)
+        print("УПРАВЛЕНИЕ БИБЛИОТЕКОЙ")
+        print("=" * 50)
+        print("1. Показать все книги")
+        print("2. Добавить новую книгу")
+        print("3. Найти книгу по названию")
+        print("4. Выход")
+        
+        choice = input("\nВыберите действие (1-4): ")
+        
+        if choice == "1":
+            library.show_books()
+        
+        elif choice == "2":
+            print("\n--- Добавление новой книги ---")
+            title = input("Введите название книги: ")
+            author = input("Введите автора книги: ")
+            
+            while True:
+                year = input("Введите год издания: ")
+                if year.isdigit() and 1000 <= int(year) <= 2024:
+                    break
+                print("Пожалуйста, введите корректный год (4 цифры)")
+            
+            library.add_book(title, author, int(year))
+        
+        elif choice == "3":
+            print("\n--- Поиск книги ---")
+            title = input("Введите название или часть названия книги: ")
+            library.find_book(title)
+        
+        elif choice == "4":
+            print("Выход из программы. До свидания!")
+            break
+        
+        else:
+            print("Неверный выбор. Пожалуйста, выберите от 1 до 4")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,67 @@
+# Уровень 1: Базовый
+class Employee:
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position
+    
+    def display_info(self):
+        print(f"Сотрудник: {self.name}, Должность: {self.position}")
+
+
+# Уровень 2: Средний
+class Team:
+    def __init__(self):
+        self.team_members = []
+    
+    def add_member(self, employee):
+        """Добавляет сотрудника в команду"""
+        self.team_members.append(employee)
+        print(f"Сотрудник {employee.name} добавлен в команду")
+    
+    def show_team(self):
+        """Выводит список всех сотрудников с их должностями"""
+        print("\nСписок сотрудников команды:")
+        print("-" * 30)
+        for employee in self.team_members:
+            employee.display_info()
+
+
+# Уровень 3: Продвинутый
+    def update_position(self, name, new_position):
+        """Обновляет должность сотрудника по имени"""
+        for employee in self.team_members:
+            if employee.name == name:
+                old_position = employee.position
+                employee.position = new_position
+                print(f"Должность сотрудника {name} изменена с '{old_position}' на '{new_position}'")
+                return
+        print(f"Сотрудник {name} не найден.")
+
+
+# Демонстрация работы
+if __name__ == "__main__":
+    print("=== Демонстрация работы классов Employee и Team ===\n")
+    
+    # Создаем сотрудников
+    emp1 = Employee("Иван Петров", "Разработчик")
+    emp2 = Employee("Мария Сидорова", "Дизайнер")
+    emp3 = Employee("Алексей Иванов", "Менеджер проекта")
+    
+    # Создаем команду
+    team = Team()
+    
+    # Добавляем сотрудников в команду
+    team.add_member(emp1)
+    team.add_member(emp2)
+    team.add_member(emp3)
+    
+    # Показываем команду
+    team.show_team()
+    
+    # Обновляем должность сотрудника
+    print("\n=== Обновление должности ===")
+    team.update_position("Мария Сидорова", "Старший дизайнер")
+    team.update_position("Петр Николаев", "Тестировщик")  # Несуществующий сотрудник
+    
+    # Показываем обновленную команду
+    team.show_team()

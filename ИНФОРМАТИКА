@@ -1,0 +1,136 @@
+"""
+Программа с двумя классами:
+1. Weapon - оружие с модификаторами урона
+2. GameBank - игровой банк с транзакциями
+"""
+
+class Weapon:
+    def __init__(self, damage, modifier):
+        self.damage = damage  # public атрибут
+        self._modifier = modifier  # protected атрибут
+        
+    def __apply_modifier(self):  # private метод
+        """Применяет модификатор к урону"""
+        return self.damage * self._modifier
+    
+    def get_final_damage(self):  # public метод
+        """Возвращает финальный урон с учётом модификатора"""
+        final_damage = self.__apply_modifier()
+        return f"Базовый урон: {self.damage}, Финальный урон: {final_damage}, Модификатор: {self._modifier}"
+    
+    def upgrade(self, new_modifier):
+        """Улучшает оружие (использует protected атрибут)"""
+        self._modifier = new_modifier
+        return f"Оружие улучшено! Новый модификатор: {self._modifier}"
+
+
+class GameBank:
+    def __init__(self, initial_balance=0):
+        self._balance = initial_balance  # protected атрибут
+    
+    def __log_transaction(self, transaction_type, amount):  # private метод
+        """Логирует транзакцию"""
+        print(f"[ЛОГ] Транзакция: {transaction_type}, Сумма: {amount}, Баланс: {self._balance}")
+    
+    def deposit(self, amount):  # public метод
+        """Пополнение счёта"""
+        if amount > 0:
+            self._balance += amount
+            self.__log_transaction("ПОПОЛНЕНИЕ", amount)
+            return f"Счёт пополнен на {amount}. Текущий баланс: {self._balance}"
+        else:
+            return "Сумма пополнения должна быть положительной"
+    
+    def withdraw(self, amount):  # public метод
+        """Снятие со счёта"""
+        if amount <= 0:
+            return "Сумма снятия должна быть положительной"
+        elif amount > self._balance:
+            return "Недостаточно средств на счёте"
+        else:
+            self._balance -= amount
+            self.__log_transaction("СНЯТИЕ", amount)
+            return f"Со счёта снято {amount}. Текущий баланс: {self._balance}"
+    
+    def get_balance(self):  # public метод
+        """Возвращает текущий баланс"""
+        return f"Текущий баланс: {self._balance}"
+    
+    def transfer_to_weapon_upgrade(self, weapon, upgrade_cost, new_modifier):
+        """Переводит деньги на улучшение оружия"""
+        if upgrade_cost <= self._balance:
+            self.withdraw(upgrade_cost)
+            return weapon.upgrade(new_modifier)
+        else:
+            return "Недостаточно средств для улучшения оружия"
+
+
+# Демонстрация работы программы
+def main():
+    print("=" * 50)
+    print("ДЕМОНСТРАЦИЯ РАБОТЫ ПРОГРАММЫ")
+    print("=" * 50)
+    
+    # 1. Создание оружия
+    print("\n1. СОЗДАНИЕ ОРУЖИЯ")
+    print("-" * 30)
+    sword = Weapon(damage=100, modifier=1.5)
+    print(f"Создано оружие:")
+    print(sword.get_final_damage())
+    
+    # 2. Создание банковского счёта
+    print("\n2. СОЗДАНИЕ БАНКОВСКОГО СЧЁТА")
+    print("-" * 30)
+    player_bank = GameBank(initial_balance=1000)
+    print(player_bank.get_balance())
+    
+    # 3. Операции с банковским счётом
+    print("\n3. ОПЕРАЦИИ С БАНКОВСКИМ СЧЁТОМ")
+    print("-" * 30)
+    print(player_bank.deposit(500))
+    print(player_bank.withdraw(300))
+    print(player_bank.withdraw(1500))  # Попытка снять больше, чем есть
+    
+    # 4. Улучшение оружия через банк
+    print("\n4. УЛУЧШЕНИЕ ОРУЖИЯ")
+    print("-" * 30)
+    print(player_bank.get_balance())
+    result = player_bank.transfer_to_weapon_upgrade(sword, upgrade_cost=200, new_modifier=2.0)
+    print(result)
+    print(sword.get_final_damage())
+    
+    # 5. Проверка доступа к атрибутам
+    print("\n5. ПРОВЕРКА ДОСТУПА К АТРИБУТАМ")
+    print("-" * 30)
+    
+    # Доступ к public атрибутам (разрешён)
+    print(f"Доступ к public атрибуту weapon.damage: {sword.damage}")
+    
+    # Доступ к protected атрибутам (возможен, но не рекомендуется)
+    print(f"Доступ к protected атрибуту sword._modifier: {sword._modifier}")
+    print(f"Доступ к protected атрибуту player_bank._balance: {player_bank._balance}")
+    
+    # Попытка доступа к private методам (вызовет ошибку)
+    try:
+        # sword.__apply_modifier()  # Раскомментировать для проверки ошибки
+        pass
+    except AttributeError as e:
+        print(f"Ошибка доступа к private методу __apply_modifier: {e}")
+    
+    try:
+        # player_bank.__log_transaction()  # Раскомментировать для проверки ошибки
+        pass
+    except AttributeError as e:
+        print(f"Ошибка доступа к private методу __log_transaction: {e}")
+    
+    # 6. Итоговая информация
+    print("\n" + "=" * 50)
+    print("ИТОГОВАЯ ИНФОРМАЦИЯ")
+    print("=" * 50)
+    print(sword.get_final_damage())
+    print(player_bank.get_balance())
+
+
+# Запуск программы
+if __name__ == "__main__":
+    main()
